@@ -664,7 +664,8 @@ describe('tercept analytics adapter', function () {
           },
           'meta': {
             'advertiserId': 2529885
-          }
+          },
+          'is_pl': true
         },
         {
           'bidderCode': 'ix',
@@ -685,7 +686,8 @@ describe('tercept analytics adapter', function () {
           'responseTimestamp': 1753444800000,
           'adserverAdSlot': '/1234567/homepage-banner',
           'pbAdSlot': 'homepage-banner-pbadslot',
-          'meta': {}
+          'meta': {},
+          'is_pl': true
         }
       ],
       'auctionInit': {

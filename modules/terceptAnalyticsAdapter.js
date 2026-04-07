@@ -17,6 +17,7 @@ const events = {
 };
 
 let adUnitMap = new Map();
+let firstAuctionSent = false;
 
 var terceptAnalyticsAdapter = Object.assign(adapter(
   {
@@ -58,6 +59,9 @@ var terceptAnalyticsAdapter = Object.assign(adapter(
     }
 
     if (eventType === EVENTS.AUCTION_END) {
+      const isFirst = !firstAuctionSent;
+      firstAuctionSent = true;
+      events.bids.forEach(bid => { bid.is_pl = isFirst; });
       send(events);
     }
   }
@@ -235,6 +239,12 @@ terceptAnalyticsAdapter.originEnableAnalytics = terceptAnalyticsAdapter.enableAn
 terceptAnalyticsAdapter.enableAnalytics = function (config) {
   initOptions = config.options;
   terceptAnalyticsAdapter.originEnableAnalytics(config);
+};
+
+terceptAnalyticsAdapter.originDisableAnalytics = terceptAnalyticsAdapter.disableAnalytics;
+terceptAnalyticsAdapter.disableAnalytics = function () {
+  firstAuctionSent = false;
+  terceptAnalyticsAdapter.originDisableAnalytics();
 };
 
 adapterManager.registerAnalyticsAdapter({
